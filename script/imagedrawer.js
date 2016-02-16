@@ -22,7 +22,7 @@
  *   ||                        
                               // Instead of specifying the duration on the whole animation,
      {                        // it's also possible to set the duration of single drawing phases:
- *     pencil: 5              // - seconds it's take to draw the picture by using only the black pencil
+ *     borderPencil: 5        // - seconds it's take to draw the picture by using only the pencil for borders
  *   },
  *
  * });
@@ -33,24 +33,44 @@
 (function($) {
   $.fn.extend({
 
-    drawImage: function(opts) {
+    drawImage: function(options) {
+
+      options = options || { };
 
       // Number of Drawing Phases:
-      var PHASES = 4;
+      var PHASES = 4,
 
-      opts = opts || {
-        duration: 20
-      };
+      // Image reference:
+          $image = $(this).find('img');
+
+      // Custom or default options:
+          opts = {
+            duration: options.duration     || 20,
+            background: options.background || '#FFF'
+          };
+
+
+      var $imgBackground = $('<div>').css({'background-color': opts.background});
+      $(this).prepend($imgBackground);
 
       var phaseTiming = opts.duration / PHASES,
           timing = {
-            pencil: (opts.duration.pencil || phaseTiming) + 's'
+            borderPencil: (opts.duration.borderPencil || phaseTiming) + 's'
           };
 
-      $(this)
-        .addClass('pencil')
-        .css({'animation-duration': timing.pencil})
-        .css({'-webkit-animation-duration': timing.pencil});
+      $imgBackground
+        .addClass('imgBackground')
+        .css({'animation-duration': timing.borderPencil})
+        .css({'-webkit-animation-duration': timing.borderPencil});
+
+      $image
+        .addClass('borderPencil')
+        .css({'animation-duration': timing.borderPencil})
+        .css({'-webkit-animation-duration': timing.borderPencil})
+        .on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+          function() {
+            $image.removeClass('borderPencil');
+        });
     }
 
   });

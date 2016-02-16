@@ -1,36 +1,75 @@
 /**
- * 1st step: pencil drawing
+ * Setting up image background above the picture
+ * to make it disapere while image is drawing
  */
 
-@-webkit-keyframes pencil {
+@-webkit-keyframes imgBackground {
   from {
-    -webkit-filter: brightness(100%) grayscale(100%);
-    opacity: 0;
+    opacity: 1;
   }
 
   to {
-    -webkit-filter: grayscale(100%);
-    opacity: 1;
+    opacity: 0;
   }
 }
 
-@keyframes pencil {
+@keyframes imgBackground {
   from {
-    -webkit-filter: brightness(100%) grayscale(100%);
-    filter: brightness(100%) grayscale(100%);
-    opacity: 0;
+    opacity: 1;
   }
 
   to {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-    opacity: 1;
+    opacity: 0;
   }
 }
 
-.pencil {
+.imgBackground {
   -webkit-animation-timing-function: linear;
   animation-timing-function: linear;
-  -webkit-animation-name: pencil;
-  animation-name: pencil;
+  -webkit-animation-name: imgBackground;
+  animation-name: imgBackground;
+  position: absolute;
+  height: inherit;
+  width: inherit;
+  z-index: 200;
+}
+
+/**
+ * 1st step: drawing borders with a pencil
+ */
+
+@-webkit-keyframes borderPencil {
+  from {
+    -webkit-filter: brightness(10) contrast(10) grayscale(1);
+    opacity: 0;
+  }
+
+  to {
+    -webkit-filter: brightness(3) contrast(10) grayscale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes borderPencil {
+  from {
+    -webkit-filter: brightness(10) contrast(10) grayscale(1);
+    filter: brightness(10) contrast(10) grayscale(1);
+    opacity: 0;
+  }
+
+  to {
+    -webkit-filter: brightness(3) contrast(10) grayscale(1);
+    filter: brightness(3) contrast(10) grayscale(1);
+    opacity: 1;
+  }
+}
+
+.borderPencil {
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: borderPencil;
+  animation-name: borderPencil;
+  visibility: visible;
+  display: block;
+  z-index: 100;
 }
