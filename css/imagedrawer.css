@@ -1,3 +1,36 @@
-.pencil {
+/**
+ * 1st step: pencil drawing
+ */
 
+@-webkit-keyframes pencil {
+  from {
+    -webkit-filter: brightness(100%) grayscale(100%);
+    opacity: 0;
+  }
+
+  to {
+    -webkit-filter: grayscale(100%);
+    opacity: 1;
+  }
+}
+
+@keyframes pencil {
+  from {
+    -webkit-filter: brightness(100%) grayscale(100%);
+    filter: brightness(100%) grayscale(100%);
+    opacity: 0;
+  }
+
+  to {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    opacity: 1;
+  }
+}
+
+.pencil {
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: pencil;
+  animation-name: pencil;
 }

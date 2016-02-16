@@ -3,7 +3,7 @@
   <head>
     <title>ImageDrawer.js</title>
 
-    <script type="text/javascript" hre></script>
+    <link rel="stylesheet" type="text/css" href="./css/imagedrawer.css">
 
     <style type="text/css">
       html, body, #main {
@@ -31,14 +31,21 @@
         height: 100%;
       }
     </style>
+
+    <script type="text/javascript" src="./lib/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="./script/imagedrawer.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('div#container').drawImage();
+      });
+    </script>
   </head>
 
   <body>
     <div id="main">
       <div id="container">
-
-        <img src="./img/Dante.jpg">
-
+        <img id="dante" src="./img/Dante.jpg">
       </div>
     </div>
   </body>
