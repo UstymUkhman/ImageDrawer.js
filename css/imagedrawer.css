@@ -1,4 +1,14 @@
 /**
+ * Display the picture if it's hidden
+ */
+
+.visibleImage {
+  z-index: 100;
+  display: block;
+  visibility: visible;
+}
+
+/**
  * Setting up image background above the picture
  * to make it disapere while image is drawing
  */
@@ -44,6 +54,11 @@
     opacity: 0;
   }
 
+  15% {
+    -webkit-filter: brightness(5) contrast(10) grayscale(1);
+    opacity: .5;
+  }
+
   to {
     -webkit-filter: brightness(3) contrast(10) grayscale(1);
     opacity: 1;
@@ -55,6 +70,12 @@
     -webkit-filter: brightness(10) contrast(10) grayscale(1);
     filter: brightness(10) contrast(10) grayscale(1);
     opacity: 0;
+  }
+
+  15% {
+    -webkit-filter: brightness(5) contrast(10) grayscale(1);
+    filter: brightness(5) contrast(10) grayscale(1);
+    opacity: .5;
   }
 
   to {
@@ -69,7 +90,66 @@
   animation-timing-function: linear;
   -webkit-animation-name: borderPencil;
   animation-name: borderPencil;
-  visibility: visible;
-  display: block;
-  z-index: 100;
+}
+
+/**
+ * 2nd step: define better outlines and shades with a pencil
+ */
+
+@-webkit-keyframes pencilShades {
+  from {
+    -webkit-filter: brightness(3) contrast(10) grayscale(1);
+  }
+
+  to {
+    -webkit-filter: brightness(2) contrast(2) grayscale(1);
+  }
+}
+
+@keyframes pencilShades {
+  from {
+    -webkit-filter: brightness(3) contrast(10) grayscale(1);
+    filter: brightness(3) contrast(10) grayscale(1);
+  }
+
+  to {
+    -webkit-filter: brightness(2) contrast(2) grayscale(1);
+    filter: brightness(2) contrast(2) grayscale(1);
+  }
+}
+
+.pencilShades {
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: pencilShades;
+  animation-name: pencilShades;
+}
+
+@-webkit-keyframes colorShades {
+  from {
+    -webkit-filter: brightness(2) contrast(2) grayscale(1);
+  }
+
+  to {
+    -webkit-filter: brightness(1.5) contrast(1) grayscale(0.4) saturate(0.8);
+  }
+}
+
+@keyframes colorShades {
+  from {
+    -webkit-filter: brightness(2) contrast(2) grayscale(1);
+    filter: brightness(2) contrast(2) grayscale(1);
+  }
+
+  to {
+    -webkit-filter: brightness(1.5) contrast(1) grayscale(0.4) saturate(0.8);
+    filter: brightness(1.5) contrast(1) grayscale(0.4) saturate(0.8);
+  }
+}
+
+.colorShades {
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: colorShades;
+  animation-name: colorShades;
 }
