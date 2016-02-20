@@ -18,20 +18,19 @@
  * _________________________________________
  *
  * $(div#container).drawImge({
- *   duration: 20,            Seconds it's take to draw the entire picture.
+ *   duration: 20,              @number - seconds it's take to draw the entire picture
  *
- *                            Instead of specifying the duration on the whole animation,
- *   || {                     it's also possible to set the duration of single drawing phases:
- *     borderPencil : 9,          @number - seconds it's take to draw the picture by using only the pencil for borders
- *     pencilShades : 6,          @number - seconds it's take to draw sharpest shades with black pencil
- *     colorShades  : 7.5,        @number - seconds it's take to draw first, basic, vanish colors
- *     fullColors   : 7.5         @number - seconds it's take to define better all colors on the picture
+ *                              Instead of specifying the duration on the whole animation,
+ *   || {                       it's also possible to set the duration of single drawing phases:
+ *     borderPencil : 9,            @number - seconds it's take to draw the picture by using only the pencil for borders
+ *     pencilShades : 6,            @number - seconds it's take to draw sharpest shades with black pencil
+ *     colorShades  : 7.5,          @number - seconds it's take to draw first, basic, vanish colors
+ *     fullColors   : 7.5           @number - seconds it's take to define better all colors on the picture
  *   },
  *
- *   background: '#949494',   @string   - background color for image while it's been drawing
- *   pause: 2000,             @number   - if settet, represents miliseconds of timeout after each phase
- *   callback: fn()           @function - function to execute after the last phase
- *
+ *   background: '#949494',     @string   - background color for image while it's been drawing
+ *   callback: fn(),            @function - function to execute after the last phase
+ *   pencil: './img/pencil.jpg' @string   - path to the pencil image
  * });
  *
  */
@@ -74,14 +73,13 @@
            if (typeof args === 'function')    cb = args;
       else if (typeof args === 'object') options = args;
 
-
       // Setting up custom or default options:
       var opts = {
             duration: options.duration     || { borderPencil: 6, pencilShades: 4,
                                                 colorShades:  5, fullColors:   5 },
 
             background: options.background || '#FFF',
-            pause: options.pause           || 0,
+            pencil: options.pencil         || null,
             callback: cb
           },
 
@@ -112,7 +110,6 @@
           colorShades : opts.duration.colorShades  + 's',
           fullColors  : opts.duration.fullColors   + 's'
         };
-
 
       // Setting up the background:
       $(this).prepend($imgBackground);
