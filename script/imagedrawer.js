@@ -40,6 +40,8 @@
  */
 
 
+'use strict';
+
 (function($) {
   $.fn.extend({
 
@@ -71,7 +73,13 @@
           $image = $(this).find('img'),
 
       // Object with duration value of each phase:
-          timing = null;
+          timing = null,
+
+      // Drawing pencil icon:
+          $pencilImage = null,
+
+      // Drawing pencil animation:
+          pencilAnim = null;
 
       // Checking for a calback or custom options:
            if (typeof args === 'function')    cb = args;
@@ -91,7 +99,20 @@
           $imgBackground = $('<div>').css({'background-color': opts.background}),
 
           setPencilAnimation = function($pencil, width, height) {
-            // drawing pencil animation
+            var x = 0, y = 0,
+                xStep = width / 10,
+                yStep = xStep / 1.7777777;
+
+            pencilAnim = setInterval(function() {
+              $pencil.css({'transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)',
+                           '-webkit-transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)'});
+
+              if (x >= width || x < 0) xStep = -xStep;
+              x += xStep;
+
+              if (y >= height || y < 0) yStep = -yStep;
+              y += yStep;
+            }, 16);
           };
 
       if (typeof opts.duration === 'number') {
@@ -163,7 +184,7 @@
 
           // Render image's style each phase:
           function() {
-            var oldClass, newClass;
+            var oldClass, newClass, duration;
 
             switch (currPhase++) {
               // Phase 2:
@@ -193,6 +214,12 @@
                 $image.css({'filter': 'brightness(1.05) saturate(1.05)',
                             '-webkit-filter': 'brightness(1.05) saturate(1.05)'})
                       .removeClass('fullColors').removeClass('visibleImage');
+
+                if (pencilAnim !== null) {
+                  clearInterval(pencilAnim);
+                  // vanishOut animation
+                  $pencilImage.css({'display': 'none', 'visibility': 'hidden'});
+                }
 
                 // Custom callback:
                 if (opts.callback !== null) opts.callback();
