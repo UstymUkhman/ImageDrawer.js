@@ -38,7 +38,15 @@
 
     <script type="text/javascript">
       $(document).ready(function() {
-        $('div#container').drawImage();
+        $('div#container').drawImage({
+          pencil: {
+            marginLeft: -15,
+            marginTop : -40,
+            height    : '50px',
+            width     : '50px',
+            src       : './img/pencil.png'
+          }
+        });
       });
     </script>
   </head>

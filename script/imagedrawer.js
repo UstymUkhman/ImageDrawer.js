@@ -22,15 +22,19 @@
  *
  *                              Instead of specifying the duration on the whole animation,
  *   || {                       it's also possible to set the duration of single drawing phases:
- *     borderPencil : 9,            @number - seconds it's take to draw the picture by using only the pencil for borders
- *     pencilShades : 6,            @number - seconds it's take to draw sharpest shades with black pencil
- *     colorShades  : 7.5,          @number - seconds it's take to draw first, basic, vanish colors
- *     fullColors   : 7.5           @number - seconds it's take to define better all colors on the picture
+ *     borderPencil : 9,              @number - seconds it's take to draw the picture by using only the pencil for borders
+ *     pencilShades : 6,              @number - seconds it's take to draw sharpest shades with black pencil
+ *     colorShades  : 7.5,            @number - seconds it's take to draw first, basic, vanish colors
+ *     fullColors   : 7.5             @number - seconds it's take to define better all colors on the picture
  *   },
  *
  *   background: '#949494',     @string   - background color for image while it's been drawing
  *   callback: fn(),            @function - function to execute after the last phase
- *   pencil: './img/pencil.jpg' @string   - path to the pencil image
+ *   pencil: {
+ *      height: '50px',
+ *      width : '50px',
+ *      src   : './img/pencil.png'    @string - path to the pencil image
+ *    }
  * });
  *
  */
@@ -84,7 +88,11 @@
           },
 
           // Creating a background:
-          $imgBackground = $('<div>').css({'background-color': opts.background});
+          $imgBackground = $('<div>').css({'background-color': opts.background}),
+
+          setPencilAnimation = function($pencil, width, height) {
+            // drawing pencil animation
+          };
 
       if (typeof opts.duration === 'number') {
         var quarter = duration /  4,
@@ -98,18 +106,44 @@
         };
       }
 
-      timing = $.isArray(opts.duration) ?
-        {
+      if ($.isArray(opts.duration)) {
+        var d = 0;
+        timing = {
           borderPencil: opts.duration[0] + 's',
           pencilShades: opts.duration[1] + 's',
           colorShades : opts.duration[2] + 's',
           fullColors  : opts.duration[3] + 's'
-        } : {
+        };
+
+        for (var i = 0; i < 4; i++)
+          d += opts.duration[i];
+
+        opts.duration = d;
+      } else {
+        timing = {
           borderPencil: opts.duration.borderPencil + 's',
           pencilShades: opts.duration.pencilShades + 's',
           colorShades : opts.duration.colorShades  + 's',
           fullColors  : opts.duration.fullColors   + 's'
         };
+
+        opts.duration = 20;
+      }
+
+      if (opts.pencil !== null) {
+        var w  = opts.pencil.width      || '50px',
+            h  = opts.pencil.height     || '50px',
+            mt = opts.pencil.marginTop  ||  '0px',
+            ml = opts.pencil.marginLeft ||  '0px';
+
+        $pencilImage = $('<img>')
+          .attr({src: opts.pencil.src})
+          .css({'position': 'absolute', 'z-index': 1500,
+                'width': w, 'height': h, 'margin-top': mt, 'margin-left': ml});
+
+        $(this).prepend($pencilImage);
+        setPencilAnimation($pencilImage, $image.width(), $image.height());
+      }
 
       // Setting up the background:
       $(this).prepend($imgBackground);
