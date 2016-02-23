@@ -39,12 +39,24 @@
     <script type="text/javascript">
       $(document).ready(function() {
         $('div#container').drawImage({
+          duration: {
+            borderPencil : 9,
+            pencilShades : 6,
+            colorShades  : 7.5,
+            fullColors   : 7.5
+          },
+
           pencil: {
             marginLeft: -15,
             marginTop : -40,
             height    : '50px',
             width     : '50px',
             src       : './img/pencil.png'
+          },
+
+          // background: '#949494',
+          callback: function() {
+            alert('It\'s Bob!');
           }
         });
       });

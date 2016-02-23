@@ -44,6 +44,49 @@
 }
 
 /**
+ * Disappearing pencil animation:
+ */
+
+@-webkit-keyframes pencil {
+  from {
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+    -webkit-filter: blur(0px);
+    opacity: 1;
+  }
+
+  to {
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: scale(2, 2);
+    -webkit-filter: blur(5px);
+    opacity: 0;
+  }
+}
+
+@keyframes pencil {
+  from {
+    transform-origin: 50% 50%;
+    transform: scale(1, 1);
+    filter: blur(0px);
+    opacity: 1;
+  }
+
+  to {
+    transform-origin: 50% 50%;
+    transform: scale(2, 2);
+    filter: blur(5px);
+    opacity: 0;
+  }
+}
+
+.pencil {
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: pencil;
+  animation-name: pencil;
+}
+
+/**
  * 1st step: drawing borders with a pencil
  */
 
