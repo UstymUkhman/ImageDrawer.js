@@ -1,3 +1,14 @@
+/*! 
+ * ImageDrawer.js - jQuery plugin to animate a drawing image
+ * 
+ * @version v1.0.0
+ * @link    GitHub       - https://github.com/UstymUkhman/ImageDrawer.js
+ * @license MIT License  - https://opensource.org/licenses/MIT
+ * @author  Ustym Ukhman - <ustym.ukhman@gmail.com> 
+ * 
+ */
+
+
 /**
  * Display the picture if it's hidden
  */
@@ -58,24 +69,26 @@
   to {
     -webkit-transform-origin: 50% 50%;
     -webkit-transform: scale(2, 2);
-    -webkit-filter: blur(5px);
+    -webkit-filter: blur(10px);
     opacity: 0;
   }
 }
 
 @keyframes pencil {
   from {
-    transform-origin: 50% 50%;
-    transform: scale(1, 1);
-    filter: blur(0px);
     opacity: 1;
+    filter: blur(0px);
+    transform: scale(1, 1);
+    transform-origin: 50% 50%;
+    -webkit-filter: blur(0px);
   }
 
   to {
-    transform-origin: 50% 50%;
-    transform: scale(2, 2);
-    filter: blur(5px);
     opacity: 0;
+    filter: blur(10px);
+    transform: scale(2, 2);
+    transform-origin: 50% 50%;
+    -webkit-filter: blur(10px);
   }
 }
 
