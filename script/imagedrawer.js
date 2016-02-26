@@ -186,7 +186,7 @@
         setPencilAnimation($pencilImage, {
           x:      opts.pencil.marginLeft,
           y:      opts.pencil.marginTop,
-          height: $image.height(),
+          height: $image.height() + opts.pencil.marginTop,
           width:  $image.width()
         });
       }
