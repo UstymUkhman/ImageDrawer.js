@@ -1,7 +1,7 @@
 /*! 
  * ImageDrawer.js - jQuery plugin to animate a drawing image
  * 
- * @version v1.0.0
+ * @version v1.1.0
  * @link    GitHub       - https://github.com/UstymUkhman/ImageDrawer.js
  * @license MIT License  - https://opensource.org/licenses/MIT
  * @author  Ustym Ukhman - <ustym.ukhman@gmail.com>
@@ -28,15 +28,21 @@
  *     fullColors   : 7.5               @number - seconds it's take to define better all colors on the picture
  *   },
  *
+ *   || [9, 6, 7.5, 7.5],       Same phase timing definition, but with the array method
+ *
+ *
  *   background: '#949494',     @string   - background color for image while it's been drawing
  *   callback: fn(),            @function - function to execute after the last phase
  *   pencil: {
- *      src       : './img/pencil.png'  @string         - path to the pencil image
  *      width     : '50px',             @string|@number - pencil image width
  *      height    : '50px',             @string|@number - pencil image height
  *      marginTop : -40,                @string|@number - initial margin top distance
  *      marginLeft: -15,                @string|@number - initial margin left distance
+ *
  *      disappear : 5,                  @number         - seconds for a disappearing pencil animation
+ *      fromBottom: true,               @boolean        - if setted to "true" the pencil will start drawing from right bottom corner of the image ("false" by default)
+ *      invertAxis: false,              @boolean        - if setted to "true" the pencil will draw vertically, if "false" - horizontally ("false" by default)
+ *      src       : './img/pencil.png'  @string         - path to the pencil image
  *    }
  * });
  *
@@ -60,11 +66,8 @@
      */
     drawImage: function(args) {
 
-      // Number of drawing phases:
-      var PHASES = 4,
-
       // Phase wacher:
-          currPhase = 0,
+      var currPhase = 0,
 
       // Callback function:
           cb = null,
@@ -90,114 +93,121 @@
 
       // Setting up custom or default options:
       var opts = {
-            duration: options.duration     || { borderPencil: 6, pencilShades: 4,
-                                                colorShades:  5, fullColors:   5 },
+        duration: options.duration     || { borderPencil: 6, pencilShades: 4,
+                                            colorShades:  5, fullColors:   5 },
 
-            callback: cb                   || options.callback,
-            background: options.background || '#FFF',
-            pencil: options.pencil         || null
-          },
+        callback: cb                   || options.callback,
+        background: options.background || '#FFF',
+        pencil: options.pencil         || null
+      },
 
-          // Creating a background:
-          $imgBackground = $('<div>').css({'background-color': opts.background}),
+      // Creating a background:
+      $imgBackground = $('<div>').css({'background-color': opts.background}),
 
-          checkOptionsType = function(pencilOpts) {
-            var ok = true;
+      // Check for correct pencil options types:
+      checkOptionsType = function(pencilOpts) {
+        var ok = true;
 
-            $.each(pencilOpts, function(key, value) {
-              if (key === 'src' || key === 'invertAxis' || key === 'fromBottom') {
-                return;
-              }
-
-              if (typeof value !== 'number') {
-                console.warn('The value of \"' + key + '\" in \"pencil\" has to be a number.');
-                ok = false;
-              }
-            });
-
-            return ok;
-          },
-
-          setPencilAnimation = function($pencil, opt) {
-            var x         = opt.pos.marginLeft,
-                y         = opt.pos.marginTop,
-                Y         = (opt.pos.invertAxis) ? 5.925925 : 177.77777,
-                X         = (opt.pos.invertAxis) ? 100 : 10,
-                xStep     = opt.width  / X,
-                yStep     = opt.height / Y,
-                xNextStep = x + xStep,
-                yNextStep = y + yStep;
-
-            X = x,
-            Y = y;
-
-            var pencilAnim = function() {
-              $pencil.css({'transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)',
-                           '-webkit-transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)'});
-
-              if (xNextStep >= opt.width || xNextStep <= X) xStep = -xStep;
-              x += xStep;
-              xNextStep = x + xStep;
-
-              if (yNextStep >= opt.height || yNextStep < Y) yStep = -yStep;
-              y += yStep;
-              yNextStep = y + yStep;
-
-              pencilAnimationID = requestAnimationFrame(pencilAnim);
-            };
-
-            pencilAnimationID = requestAnimationFrame(pencilAnim);
-          };
-
-          if (typeof opts.duration === 'number') {
-            var quarter = duration /  4,
-                tenth   = duration / 10;
-
-            timing = {
-              borderPencil: tenth * 6 + 's',
-              pencilShades: tenth * 4 + 's',
-              colorShades : quarter   + 's',
-              fullColors  : quarter   + 's'
-            };
+        $.each(pencilOpts, function(key, value) {
+          if (key === 'src' || key === 'invertAxis' || key === 'fromBottom') {
+            return;
           }
 
-          if ($.isArray(opts.duration)) {
-            var d = 0;
-            timing = {
-              borderPencil: opts.duration[0] + 's',
-              pencilShades: opts.duration[1] + 's',
-              colorShades : opts.duration[2] + 's',
-              fullColors  : opts.duration[3] + 's'
-            };
-
-            for (var i = 0; i < 4; i++)
-              d += opts.duration[i];
-
-            opts.duration = d;
-          } else {
-            timing = {
-              borderPencil: opts.duration.borderPencil + 's',
-              pencilShades: opts.duration.pencilShades + 's',
-              colorShades : opts.duration.colorShades  + 's',
-              fullColors  : opts.duration.fullColors   + 's'
-            };
-
-            opts.duration = 20;
+          if (typeof value !== 'number') {
+            console.warn('The value of \"' + key + '\" in \"pencil\" has to be a number.');
+            ok = false;
           }
+        });
 
-          if (opts.pencil !== null && checkOptionsType(opts.pencil)) {
-            $pencilImage = $('<img>')
-              .attr({src: opts.pencil.src})
-              .css({'position': 'absolute', 'width': opts.pencil.width + 'px',
-              'height': opts.pencil.height + 'px', 'z-index': 1500});
+        return ok;
+      },
 
-            $(this).prepend($pencilImage);
-            setPencilAnimation($pencilImage, {
-              height: $image.height() + opts.pencil.marginTop,
-              width:  $image.width(),
-              pos:    opts.pencil
-            });
-          }
+      // Set up the pencil animation function with passed (or default) options:
+      setPencilAnimation = function($pencil, opt) {
+        var x         = (opt.pos.fromBottom) ? opt.width  : opt.pos.marginLeft,
+            y         = (opt.pos.fromBottom) ? opt.height : opt.pos.marginTop,
+            Y         = (opt.pos.invertAxis) ? 5.925925   : 177.77777,
+            X         = (opt.pos.invertAxis) ? 100        : 10,
+            xStep     = opt.width  / X,
+            yStep     = opt.height / Y,
+            xNextStep = x + xStep,
+            yNextStep = y + yStep,
+            X         = x,
+            Y         = y;
+
+        if (opt.pos.fromBottom) {
+          X     = opt.pos.marginLeft;
+          Y     = opt.pos.marginTop;
+          xStep = -xStep;
+          yStep = -yStep;
+        }
+
+        // Pencil animation function:
+        var pencilAnim = function() {
+          $pencil.css({'transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)',
+                       '-webkit-transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)'});
+
+          if (xNextStep >= opt.width || xNextStep <= X) xStep = -xStep;
+          x += xStep;
+          xNextStep = x + xStep;
+
+          if (yNextStep >= opt.height || yNextStep < Y) yStep = -yStep;
+          y += yStep;
+          yNextStep = y + yStep;
+
+          pencilAnimationID = requestAnimationFrame(pencilAnim);
+        };
+
+        pencilAnimationID = requestAnimationFrame(pencilAnim);
+      };
+
+      // Set up the duration of drawing phases:
+      if ($.isArray(opts.duration)) {
+        var d = 0;
+        timing = {
+          borderPencil: opts.duration[0] + 's',
+          pencilShades: opts.duration[1] + 's',
+          colorShades : opts.duration[2] + 's',
+          fullColors  : opts.duration[3] + 's'
+        };
+
+        for (var i = 0; i < 4; i++)
+          d += opts.duration[i];
+      }
+
+      if (typeof opts.duration === 'number') {
+        var quarter = opts.duration /  4,
+            tenth   = opts.duration / 10;
+
+        timing = {
+          borderPencil: tenth * 6 + 's',
+          pencilShades: tenth * 4 + 's',
+          colorShades : quarter   + 's',
+          fullColors  : quarter   + 's'
+        };
+      } else {
+        timing = {
+          borderPencil: opts.duration.borderPencil + 's',
+          pencilShades: opts.duration.pencilShades + 's',
+          colorShades : opts.duration.colorShades  + 's',
+          fullColors  : opts.duration.fullColors   + 's'
+        };
+      }
+
+      // Set pencil image if defined
+      if (opts.pencil !== null && checkOptionsType(opts.pencil)) {
+        $pencilImage = $('<img>')
+          .attr({src: opts.pencil.src})
+          .css({'position': 'absolute', 'width': opts.pencil.width + 'px',
+                'height': opts.pencil.height + 'px', 'z-index': 1500});
+
+        $(this).prepend($pencilImage);
+        setPencilAnimation($pencilImage, {
+          height: $image.height() + opts.pencil.marginTop,
+          width:  $image.width() + opts.pencil.marginLeft,
+          pos:    opts.pencil
+        });
+      }
 
       // Setting up the background:
       $(this).prepend($imgBackground);
@@ -248,6 +258,7 @@
                             '-webkit-filter': 'brightness(1.05) saturate(1.05)'})
                       .removeClass('fullColors').removeClass('visibleImage');
 
+                // Animate pencil image if setted
                 if (pencilAnimationID !== null) {
                   cancelAnimationFrame(pencilAnimationID);
 
@@ -260,6 +271,7 @@
                             '-webkit-animation-duration': opts.pencil.disappear + 's'});
                   }
 
+                  // Remove pencil and call the callback if defined:
                   setTimeout(function() {
                     $pencilImage.remove();
 
