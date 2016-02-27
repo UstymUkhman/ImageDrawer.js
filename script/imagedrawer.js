@@ -105,7 +105,11 @@
             var ok = true;
 
             $.each(pencilOpts, function(key, value) {
-              if(typeof value !== 'number' && key !== 'src') {
+              if (key === 'src' || key === 'invertAxis' || key === 'fromBottom') {
+                return;
+              }
+
+              if (typeof value !== 'number') {
                 console.warn('The value of \"' + key + '\" in \"pencil\" has to be a number.');
                 ok = false;
               }
@@ -114,23 +118,28 @@
             return ok;
           },
 
-          setPencilAnimation = function($pencil, pos) {
-            var x         = pos.x,
-                y         = pos.y,
-                xStep     = pos.width  / 10,
-                yStep     = pos.height / 177.77777,
+          setPencilAnimation = function($pencil, opt) {
+            var x         = opt.pos.marginLeft,
+                y         = opt.pos.marginTop,
+                Y         = (opt.pos.invertAxis) ? 5.925925 : 177.77777,
+                X         = (opt.pos.invertAxis) ? 100 : 10,
+                xStep     = opt.width  / X,
+                yStep     = opt.height / Y,
                 xNextStep = x + xStep,
                 yNextStep = y + yStep;
+
+            X = x,
+            Y = y;
 
             var pencilAnim = function() {
               $pencil.css({'transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)',
                            '-webkit-transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)'});
 
-              if (xNextStep >= pos.width || xNextStep <= pos.x) xStep = -xStep;
+              if (xNextStep >= opt.width || xNextStep <= X) xStep = -xStep;
               x += xStep;
               xNextStep = x + xStep;
 
-              if (yNextStep >= pos.height || yNextStep < pos.y) yStep = -yStep;
+              if (yNextStep >= opt.height || yNextStep < Y) yStep = -yStep;
               y += yStep;
               yNextStep = y + yStep;
 
@@ -140,56 +149,55 @@
             pencilAnimationID = requestAnimationFrame(pencilAnim);
           };
 
-      if (typeof opts.duration === 'number') {
-        var quarter = duration /  4,
-            tenth   = duration / 10;
+          if (typeof opts.duration === 'number') {
+            var quarter = duration /  4,
+                tenth   = duration / 10;
 
-        timing = {
-          borderPencil: tenth * 6 + 's',
-          pencilShades: tenth * 4 + 's',
-          colorShades : quarter   + 's',
-          fullColors  : quarter   + 's'
-        };
-      }
+            timing = {
+              borderPencil: tenth * 6 + 's',
+              pencilShades: tenth * 4 + 's',
+              colorShades : quarter   + 's',
+              fullColors  : quarter   + 's'
+            };
+          }
 
-      if ($.isArray(opts.duration)) {
-        var d = 0;
-        timing = {
-          borderPencil: opts.duration[0] + 's',
-          pencilShades: opts.duration[1] + 's',
-          colorShades : opts.duration[2] + 's',
-          fullColors  : opts.duration[3] + 's'
-        };
+          if ($.isArray(opts.duration)) {
+            var d = 0;
+            timing = {
+              borderPencil: opts.duration[0] + 's',
+              pencilShades: opts.duration[1] + 's',
+              colorShades : opts.duration[2] + 's',
+              fullColors  : opts.duration[3] + 's'
+            };
 
-        for (var i = 0; i < 4; i++)
-          d += opts.duration[i];
+            for (var i = 0; i < 4; i++)
+              d += opts.duration[i];
 
-        opts.duration = d;
-      } else {
-        timing = {
-          borderPencil: opts.duration.borderPencil + 's',
-          pencilShades: opts.duration.pencilShades + 's',
-          colorShades : opts.duration.colorShades  + 's',
-          fullColors  : opts.duration.fullColors   + 's'
-        };
+            opts.duration = d;
+          } else {
+            timing = {
+              borderPencil: opts.duration.borderPencil + 's',
+              pencilShades: opts.duration.pencilShades + 's',
+              colorShades : opts.duration.colorShades  + 's',
+              fullColors  : opts.duration.fullColors   + 's'
+            };
 
-        opts.duration = 20;
-      }
+            opts.duration = 20;
+          }
 
-      if (opts.pencil !== null && checkOptionsType(opts.pencil)) {
-        $pencilImage = $('<img>')
-          .attr({src: opts.pencil.src})
-          .css({'position': 'absolute', 'width': opts.pencil.width + 'px',
-                'height': opts.pencil.height + 'px', 'z-index': 1500});
+          if (opts.pencil !== null && checkOptionsType(opts.pencil)) {
+            $pencilImage = $('<img>')
+              .attr({src: opts.pencil.src})
+              .css({'position': 'absolute', 'width': opts.pencil.width + 'px',
+              'height': opts.pencil.height + 'px', 'z-index': 1500});
 
-        $(this).prepend($pencilImage);
-        setPencilAnimation($pencilImage, {
-          x:      opts.pencil.marginLeft,
-          y:      opts.pencil.marginTop,
-          height: $image.height() + opts.pencil.marginTop,
-          width:  $image.width()
-        });
-      }
+            $(this).prepend($pencilImage);
+            setPencilAnimation($pencilImage, {
+              height: $image.height() + opts.pencil.marginTop,
+              width:  $image.width(),
+              pos:    opts.pencil
+            });
+          }
 
       // Setting up the background:
       $(this).prepend($imgBackground);
