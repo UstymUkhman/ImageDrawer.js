@@ -185,7 +185,7 @@
           colorShades : quarter   + 's',
           fullColors  : quarter   + 's'
         };
-      } else {
+      } else if (!$.isArray(opts.duration)) {
         timing = {
           borderPencil: opts.duration.borderPencil + 's',
           pencilShades: opts.duration.pencilShades + 's',
