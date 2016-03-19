@@ -1,7 +1,7 @@
 /*! 
  * ImageDrawer.js - jQuery plugin to animate a drawing image
  * 
- * @version v1.1.0
+ * @version v1.1.1
  * @link    GitHub       - https://github.com/UstymUkhman/ImageDrawer.js
  * @license MIT License  - https://opensource.org/licenses/MIT
  * @author  Ustym Ukhman - <ustym.ukhman@gmail.com>
@@ -33,6 +33,7 @@
  *
  *   background: '#949494',     @string   - background color for image while it's been drawing
  *   callback: fn(),            @function - function to execute after the last phase
+ *
  *   pencil: {
  *      width     : '50px',             @string|@number - pencil image width
  *      height    : '50px',             @string|@number - pencil image height
@@ -171,8 +172,9 @@
           fullColors  : opts.duration[3] + 's'
         };
 
-        for (var i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++) {
           d += opts.duration[i];
+        }
       }
 
       if (typeof opts.duration === 'number') {
@@ -214,8 +216,9 @@
 
       $imgBackground
         .addClass('imgBackground')
-        .css({'animation-duration': timing.borderPencil})
-        .css({'-webkit-animation-duration': timing.borderPencil});
+        .css({'animation-duration': timing.borderPencil,
+              '-webkit-animation-duration': timing.borderPencil,
+              'width': $(this).width(), 'height': $(this).height()});
 
       // Starting to draw the picture:
       $image
@@ -265,10 +268,10 @@
                   if (opts.pencil.disappear) {
                     $pencilImage
                     .addClass('pencil')
-                      .css({'top': $pencilImage.offset().top + 'px',
-                            'left': $pencilImage.offset().left + 'px',
-                            'animation-duration': opts.pencil.disappear + 's',
-                            '-webkit-animation-duration': opts.pencil.disappear + 's'});
+                    .css({'top': $pencilImage.offset().top + 'px',
+                          'left': $pencilImage.offset().left + 'px',
+                          'animation-duration': opts.pencil.disappear + 's',
+                          '-webkit-animation-duration': opts.pencil.disappear + 's'});
                   }
 
                   // Remove pencil and call the callback if defined:

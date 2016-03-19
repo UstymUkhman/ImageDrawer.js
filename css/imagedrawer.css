@@ -1,7 +1,7 @@
 /*! 
  * ImageDrawer.js - jQuery plugin to animate a drawing image
  * 
- * @version v1.1.0
+ * @version v1.1.1
  * @link    GitHub       - https://github.com/UstymUkhman/ImageDrawer.js
  * @license MIT License  - https://opensource.org/licenses/MIT
  * @author  Ustym Ukhman - <ustym.ukhman@gmail.com> 
@@ -49,8 +49,6 @@
   -webkit-animation-name: imgBackground;
   animation-name: imgBackground;
   position: absolute;
-  height: inherit;
-  width: inherit;
   z-index: 1000;
 }
 

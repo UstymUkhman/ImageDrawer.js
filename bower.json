@@ -5,7 +5,7 @@
   "homepage": "https://github.com/UstymUkhman/ImageDrawer.js",
   "demo": "http://ustymukhman.github.io/ImageDrawer.js/",
   "main": "./script/imagedrawer.js",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "license": "MIT",
   "keywords": [
     "ImageDrawer.js",
