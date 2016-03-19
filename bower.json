@@ -1,0 +1,22 @@
+{
+  "author": "Ustym Ukhman",
+  "name": "ImageDrawer.js",
+  "description": "jQuery plugin to animate a drawing image",
+  "homepage": "https://github.com/UstymUkhman/ImageDrawer.js",
+  "demo": "http://ustymukhman.github.io/ImageDrawer.js/",
+  "main": "./script/imagedrawer.js",
+  "version": "1.0.0",
+  "license": "MIT",
+  "keywords": [
+    "ImageDrawer.js",
+    "imagedrawer.js",
+    "ImageDrawerJS",
+    "ImageDrawer"
+  ],
+  "devDependencies": {
+    "bower": "^1.7.7"
+  },
+  "authors": [
+    "Ustym Ukhman <ustym.ukhman@gmail.com>"
+  ]
+}
