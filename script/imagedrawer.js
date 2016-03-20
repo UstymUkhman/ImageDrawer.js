@@ -1,7 +1,7 @@
 /*! 
  * ImageDrawer.js - jQuery plugin to animate a drawing image
  * 
- * @version v1.1.1
+ * @version v1.2.0
  * @link    GitHub       - https://github.com/UstymUkhman/ImageDrawer.js
  * @license MIT License  - https://opensource.org/licenses/MIT
  * @author  Ustym Ukhman - <ustym.ukhman@gmail.com>
@@ -31,7 +31,7 @@
  *   || [9, 6, 7.5, 7.5],       Same phase timing definition, but with the array method
  *
  *
- *   background: '#949494',     @string   - background color for image while it's been drawing
+ *   background: '#FFFFFF',     @string   - background color for image while it's been drawing
  *   callback: fn(),            @function - function to execute after the last phase
  *
  *   pencil: {
@@ -92,79 +92,81 @@
            if (typeof args === 'function')    cb = args;
       else if (typeof args === 'object') options = args;
 
-      // Setting up custom or default options:
-      var opts = {
-        duration: options.duration     || { borderPencil: 6, pencilShades: 4,
-                                            colorShades:  5, fullColors:   5 },
 
-        callback: cb                   || options.callback,
-        background: options.background || '#FFF',
-        pencil: options.pencil         || null
-      },
+      var $imgBackground = null,
 
-      // Creating a background:
-      $imgBackground = $('<div>').css({'background-color': opts.background}),
+        // Setting up custom or default options:
+        opts = {
+          duration: options.duration     || { borderPencil: 6, pencilShades: 4,
+                                              colorShades:  5, fullColors:   5 },
 
-      // Check for correct pencil options types:
-      checkOptionsType = function(pencilOpts) {
-        var ok = true;
+          callback: cb                   || options.callback,
+          pencil: options.pencil         || null,
+          background: options.background || null
+        },
 
-        $.each(pencilOpts, function(key, value) {
-          if (key === 'src' || key === 'invertAxis' || key === 'fromBottom') {
-            return;
+        // Check for correct pencil options types:
+        checkOptionsType = function(pencilOpts) {
+          var ok = true;
+
+          $.each(pencilOpts, function(key, value) {
+            if (key === 'src' || key === 'invertAxis' || key === 'fromBottom') {
+              return;
+            }
+
+            if (typeof value !== 'number') {
+              console.warn('The value of \"' + key + '\" in \"pencil\" has to be a number.');
+              ok = false;
+            }
+          });
+
+          return ok;
+        },
+
+        // Set up the pencil animation function with passed (or default) options:
+        setPencilAnimation = function($pencil, opt) {
+          var x         = (opt.pos.fromBottom) ? opt.width  : opt.pos.marginLeft,
+              y         = (opt.pos.fromBottom) ? opt.height : opt.pos.marginTop,
+              Y         = (opt.pos.invertAxis) ? 5.925925   : 177.77777,
+              X         = (opt.pos.invertAxis) ? 100        : 10,
+              xStep     = opt.width  / X,
+              yStep     = opt.height / Y,
+              xNextStep = x + xStep,
+              yNextStep = y + yStep,
+              X         = x,
+              Y         = y;
+
+          if (opt.pos.fromBottom) {
+            X     = opt.pos.marginLeft;
+            Y     = opt.pos.marginTop;
+            xStep = -xStep;
+            yStep = -yStep;
           }
 
-          if (typeof value !== 'number') {
-            console.warn('The value of \"' + key + '\" in \"pencil\" has to be a number.');
-            ok = false;
-          }
-        });
+          // Pencil animation function:
+          var pencilAnim = function() {
+            $pencil.css({'transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)',
+                         '-webkit-transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)'});
 
-        return ok;
-      },
+            if (xNextStep >= opt.width || xNextStep <= X) xStep = -xStep;
+            x += xStep;
+            xNextStep = x + xStep;
 
-      // Set up the pencil animation function with passed (or default) options:
-      setPencilAnimation = function($pencil, opt) {
-        var x         = (opt.pos.fromBottom) ? opt.width  : opt.pos.marginLeft,
-            y         = (opt.pos.fromBottom) ? opt.height : opt.pos.marginTop,
-            Y         = (opt.pos.invertAxis) ? 5.925925   : 177.77777,
-            X         = (opt.pos.invertAxis) ? 100        : 10,
-            xStep     = opt.width  / X,
-            yStep     = opt.height / Y,
-            xNextStep = x + xStep,
-            yNextStep = y + yStep,
-            X         = x,
-            Y         = y;
+            if (yNextStep >= opt.height || yNextStep < Y) yStep = -yStep;
+            y += yStep;
+            yNextStep = y + yStep;
 
-        if (opt.pos.fromBottom) {
-          X     = opt.pos.marginLeft;
-          Y     = opt.pos.marginTop;
-          xStep = -xStep;
-          yStep = -yStep;
-        }
-
-        // Pencil animation function:
-        var pencilAnim = function() {
-          $pencil.css({'transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)',
-                       '-webkit-transform': 'translate3d(' + x + 'px, ' + y + 'px, 0px)'});
-
-          if (xNextStep >= opt.width || xNextStep <= X) xStep = -xStep;
-          x += xStep;
-          xNextStep = x + xStep;
-
-          if (yNextStep >= opt.height || yNextStep < Y) yStep = -yStep;
-          y += yStep;
-          yNextStep = y + yStep;
+            pencilAnimationID = requestAnimationFrame(pencilAnim);
+          };
 
           pencilAnimationID = requestAnimationFrame(pencilAnim);
         };
 
-        pencilAnimationID = requestAnimationFrame(pencilAnim);
-      };
 
       // Set up the duration of drawing phases:
       if ($.isArray(opts.duration)) {
         var d = 0;
+
         timing = {
           borderPencil: opts.duration[0] + 's',
           pencilShades: opts.duration[1] + 's',
@@ -211,14 +213,19 @@
         });
       }
 
-      // Setting up the background:
-      $(this).prepend($imgBackground);
+      if (opts.background) {
+        // Creating a background:
+        $imgBackground = $('<div>')
+          .addClass('imgBackground')
+          .css({'background-color': opts.background,
+                'animation-duration': timing.borderPencil,
+                '-webkit-animation-duration': timing.borderPencil,
+                'width': $(this).width(), 'height': $(this).height()});
 
-      $imgBackground
-        .addClass('imgBackground')
-        .css({'animation-duration': timing.borderPencil,
-              '-webkit-animation-duration': timing.borderPencil,
-              'width': $(this).width(), 'height': $(this).height()});
+        // Set up the background image:
+        $(this).prepend($imgBackground);
+      }
+
 
       // Starting to draw the picture:
       $image
@@ -235,10 +242,10 @@
             switch (currPhase++) {
               // Phase 2:
               case 0:
-                $imgBackground.remove();
                 oldClass = 'borderPencil';
                 newClass = 'pencilShades';
                 duration = timing.pencilShades;
+                if ($imgBackground) $imgBackground.remove();
               break;
 
               // Phase 3:
