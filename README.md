@@ -1,7 +1,7 @@
 # ImageDrawer.js
 *A jQuery plugin to animate a drawing image*
 
-[![ImageDrawer.js build](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg)](https://github.com/UstymUkhman/ImageDrawer.js/blob/master/script/imagedrawer.js)
+[![ImageDrawer.js build](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/UstymUkhman/ImageDrawer.js/blob/master/script/imagedrawer.js)
 [![ImageDrawer.js release](https://img.shields.io/badge/release-v1.2.0-brightgreen.svg)](https://github.com/UstymUkhman/ImageDrawer.js)
 [![Bower version](https://img.shields.io/badge/bower-v1.2.0-blue.svg)](http://bower.io/)
 [![GitHub license](https://img.shields.io/cocoapods/l/AFNetworking.svg)](http://opensource.org/licenses/MIT)
