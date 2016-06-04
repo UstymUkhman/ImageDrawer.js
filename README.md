@@ -87,4 +87,4 @@ The variable `options` is just an object which may contain all or some of this p
 You can check better options' description and their data types [here](https://github.com/UstymUkhman/ImageDrawer.js/blob/master/script/imagedrawer.js) or visit the [demo page](http://ustymukhman.github.io/ImageDrawer.js/) and try to configure them.
 
 ## License
-Dynamic.css is licensed under the [MIT license](http://opensource.org/licenses/MIT).
+ImageDrawer.js is licensed under the [MIT license](http://opensource.org/licenses/MIT).
