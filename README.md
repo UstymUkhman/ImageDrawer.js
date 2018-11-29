@@ -11,7 +11,7 @@ The drawing process is made of two parts: the first one defines all image border
 
 ## Demo
 
-You can try ImageDrawer.js [here](http://ustymukhman.github.io/ImageDrawer.js/).<br>
+You can try ImageDrawer.js [here](http://52.59.223.146/experiments/ImageDrawerJs/).<br>
 
 ## Download
 
