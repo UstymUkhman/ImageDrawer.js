@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html class="no-js" id="html-element">
+  <head>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#00CC00">
+    <meta name="msapplication-TileColor" content="#00CC00">
+    <meta name="keywords" content="Ustym,Ukhman,Ustym Ukhman,ImageDrawer,ImageDrawer.js">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>ImageDrawer.js</title>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="../script/imagedrawer.min.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../css/imagedrawer.css" />
+    <link rel="stylesheet" type="text/css" href="./index.css" />
+  </head>
+
+  <body>
+    <input id="input" type="file" accept="image/*" onchange="setImage()" />
+
+    <div id="container" class="image-container">
+      <img id="image" src="../img/cat.jpg" />
+    </div>
+
+    <!-- <div class="code-container" :class="{ 'object': objectStyle, 'callback': drawSettings.callbackFn, 'pencil': drawSettings.pencil, 'hidden': !visibleCode}">
+      <div onclick="hideCode()" class="close-button-container">
+        <div class="close-button left"></div>
+        <div class="close-button right"></div>
+      </div>
+
+      <code class="code-preview">
+        $(<span class="string">'div#image-container'</span>).drawImage({<br>
+        &emsp;duration: <span v-html="duration" :class="{'number': !drawSettings.object && !drawSettings.array}"></span><br>
+        &emsp;background: <span class="string">'<span>{{drawSettings.background}}</span>'</span>
+
+        <transition appear name="code">
+          <span v-if="callback.length || pencil.length" class="coma">,</span>
+        </transition>
+
+        <transition appear :name="callbackAnimation">
+          <span v-if="callback.length" v-html="callback" class="callback-function"></span>
+        </transition>
+
+        <transition appear name="code">
+          <span v-if="callbackComa" class="coma">,</span>
+        </transition>
+
+        <transition appear name="code">
+          <span v-if="pencil.length" v-html="pencil" class="pencil-options"></span>
+        </transition>
+
+        <br>});
+      </code>
+    </div> -->
+  </body>
+</html>
