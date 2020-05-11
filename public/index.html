@@ -11,7 +11,7 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script type="text/javascript" src="../script/imagedrawer.min.js"></script>
+    <script type="text/javascript" src="../js/imagedrawer.min.js"></script>
     <script type="text/javascript" src="./index.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../css/imagedrawer.css" />
@@ -21,11 +21,11 @@
   <body>
     <input id="input" type="file" accept="image/*" onchange="setImage()" />
 
-    <div id="container" class="image-container">
-      <img id="image" src="../img/cat.jpg" />
+    <div id="image-container" class="image-container">
+      <img id="image" src="../img/cat.jpg" class="full-width" />
     </div>
 
-    <!-- <div class="code-container" :class="{ 'object': objectStyle, 'callback': drawSettings.callbackFn, 'pencil': drawSettings.pencil, 'hidden': !visibleCode}">
+    <div id="code-container" class="callback hidden">
       <div onclick="hideCode()" class="close-button-container">
         <div class="close-button left"></div>
         <div class="close-button right"></div>
@@ -33,27 +33,16 @@
 
       <code class="code-preview">
         $(<span class="string">'div#image-container'</span>).drawImage({<br>
-        &emsp;duration: <span v-html="duration" :class="{'number': !drawSettings.object && !drawSettings.array}"></span><br>
-        &emsp;background: <span class="string">'<span>{{drawSettings.background}}</span>'</span>
-
-        <transition appear name="code">
-          <span v-if="callback.length || pencil.length" class="coma">,</span>
-        </transition>
-
-        <transition appear :name="callbackAnimation">
-          <span v-if="callback.length" v-html="callback" class="callback-function"></span>
-        </transition>
-
-        <transition appear name="code">
-          <span v-if="callbackComa" class="coma">,</span>
-        </transition>
-
-        <transition appear name="code">
-          <span v-if="pencil.length" v-html="pencil" class="pencil-options"></span>
-        </transition>
+        &emsp;duration: <span id="duration"><span class="number">30</span>,</span><br>
+        &emsp;background: <span class="string">'<span id="background">#ffffff</span>'</span>
+        
+        <span class="coma hidden">,</span>
+        <span id="callback" class="callback-function"></span>
+        <span class="coma hidden">,</span>
+        <span id="pencil" class="pencil-options hidden"></span>
 
         <br>});
       </code>
-    </div> -->
+    </div>
   </body>
 </html>
