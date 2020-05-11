@@ -59,14 +59,17 @@ img#image {
   margin: 0 auto;
 }
 
-img#image.full-height {
-  height: 100%;
-  width: auto;
-}
-
 img#image.full-width {
   height: auto;
   width: 100%;
+}
+
+img#image.full-height {
+  min-height: 300px;
+  max-height: 675px;
+
+  height: 100%;
+  width: auto;
 }
 
 input#input {

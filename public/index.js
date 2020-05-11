@@ -6,7 +6,8 @@
   var image = null;
   var pencil = null;
   var duration = null;
-
+  var FULL_HD = 16 / 9;
+  
   var callback = null;
   var background = null;
   var codeContainer = null;
@@ -295,15 +296,17 @@
     reader.onload = function () {
       image.src = reader.result;
 
-      // image.onload = function () {
-      //   if (this.naturalWidth < this.naturalHeight) {
-      //     image.classList.remove('full-width');
-      //     image.classList.add('full-height');
-      //   } else {
-      //     image.classList.remove('full-height');
-      //     image.classList.add('full-width');
-      //   }
-      // };
+      image.onload = function () {
+        var ratio = this.naturalWidth / this.naturalHeight;
+
+        if (ratio < FULL_HD) {
+          image.classList.remove('full-width');
+          image.classList.add('full-height');
+        } else {
+          image.classList.remove('full-height');
+          image.classList.add('full-width');
+        }
+      };
     }
 
     gui = new dat.GUI();
