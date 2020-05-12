@@ -15,7 +15,7 @@ You can try ImageDrawer.js [here](http://54.93.165.244/experiments/ImageDrawerJs
 
 ## Download
 
-To download the full plugin just click [here](http://52.59.223.146/static/downloads/ImageDrawer.zip)
+To download the full plugin just click [here](https://ustymukhman.github.io/ImageDrawer.js/ImageDrawer.zip)
 or install it from [bower](http://bower.io/):
 
 `````sh
