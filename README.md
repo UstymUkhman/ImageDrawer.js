@@ -9,6 +9,8 @@
 **ImageDrawer.js** is a simple plugin for jQuery with CSS animations which can be called as described below to imitate an accelerated drawn image.<br>
 The drawing process is made of two parts: the first one defines all image borders by using "a black pencil" and the second one draws all the colors to the picture.
 
+![](./public/preview.gif)
+
 ## Demo
 
 You can try ImageDrawer.js [here](http://54.93.165.244/experiments/ImageDrawer/).<br>
