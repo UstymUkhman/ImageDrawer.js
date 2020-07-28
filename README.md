@@ -1,4 +1,4 @@
-# [ImageDrawer.js](http://54.93.165.244/experiments/ImageDrawerJs/) #
+# [ImageDrawer.js](http://54.93.165.244/experiments/ImageDrawer/) #
 
 *A jQuery plugin to animate a drawing image*
 
