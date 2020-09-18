@@ -1,4 +1,4 @@
-# [ImageDrawer.js](http://54.93.165.244/experiments/ImageDrawer/) #
+# [ImageDrawer.js](http://35.158.218.205/experiments/ImageDrawer/) #
 
 *A jQuery plugin to animate a drawing image*
 
@@ -14,7 +14,7 @@ The drawing process is made of two parts: the first one defines all image border
 
 ## Demo
 
-You can try ImageDrawer.js [here](http://54.93.165.244/experiments/ImageDrawer/).<br>
+You can try ImageDrawer.js [here](http://35.158.218.205/experiments/ImageDrawer/).<br>
 
 ## Download
 
@@ -87,7 +87,7 @@ The variable `options` is just an object which may contain all or some of this p
 &emsp;**invertAxis**: *draw image vertically*<br>
 &emsp;**src**: *path to pencil's image*<br>
 
-You can check options' description and their data types [here](https://github.com/UstymUkhman/ImageDrawer.js/blob/master/js/imagedrawer.js) or visit the [demo page](http://54.93.165.244/experiments/ImageDrawer/) and try to configure them by yourself.
+You can check options' description and their data types [here](https://github.com/UstymUkhman/ImageDrawer.js/blob/master/js/imagedrawer.js) or visit the [demo page](http://35.158.218.205/experiments/ImageDrawer/) and try to configure them by yourself.
 
 ## License
 ImageDrawer.js is licensed under the [MIT license](http://opensource.org/licenses/MIT).
